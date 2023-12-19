@@ -1,26 +1,37 @@
-def modify_string(s):
-    modified_string = ""
-    
-    for i in range(len(s)):
-        char = s[i]
-        ascii_value = ord(char)
+function modifyString(s) {
+    let charArray = s.split('');
 
-        if i % 2 == 0 and ascii_value % 2 == 0:
-            next_ascii = ascii_value(i + 1) + (ascii_value % 7)
-            if next_ascii <= 127:
-                next_char = chr(next_ascii)
-            else:
-                next_char = chr(83)
-            modified_string += next_char
-        elif i % 2 == 1 and ascii_value % 2 == 1:
-            prev_ascii = ascii_value(i - 1) - (ascii_value % 5)
-            if prev_ascii >= 0:
-                prev_char = chr(prev_ascii)
-            else:
-                prev_char = chr(83)
-            modified_string += prev_char
-        else:
-            modified_string += char
+    for (let i = 0; i < charArray.length; i++) {
+      let charCode = charArray[i].charCodeAt(0);
 
-    return modified_string
-    
+      if (charCode % 2 === 0) {
+        let nextCharCode = charArray[i + 1] ? charArray[i + 1].charCodeAt(0) + (charCode % 7) : null;
+
+        if (nextCharCode && nextCharCode > 127) {
+          nextCharCode = 83;
+        }
+
+        if (nextCharCode) {
+          charArray[i + 1] = String.fromCharCode(nextCharCode);
+        }
+      } else {
+        let prevCharCode = charArray[i - 1] ? charArray[i - 1].charCodeAt(0) - (charCode % 5) : null;
+
+        if (prevCharCode && prevCharCode < 32) {
+          prevCharCode = 83;
+        }
+
+        if (prevCharCode) {
+          charArray[i - 1] = String.fromCharCode(prevCharCode);
+        }
+      }
+    }
+
+    let result = charArray.join('');
+
+    return result;
+  }
+
+  const s = "sHQen}";
+  const result = modifyString(s);
+  console.log(result);
